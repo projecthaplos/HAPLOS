@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Process — Project HAPLOS</title>
+
+  <!-- Fonts + Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root{
+      --dark:#23260F;
+      --olive:#58592F;
+      --taupe:#A6A085;
+      --beige:#D9D5C5;
+      --offwhite:#F9F8F5;
+      --muted:rgba(35,38,15,0.78);
+      --highlight:#3E7B3A;
+      --maxw:1200px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Poppins","Manrope",system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      background: linear-gradient(180deg,#fbfaf6,#f3efe6);
+      color:var(--dark);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Background waves */
+    .bg-wave{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+    .bg-wave svg{position:absolute;width:120%;height:auto;left:-10%;opacity:0.12}
+    .bg1{top:-60px;fill:var(--taupe)}
+    .bg2{top:180px;fill:var(--beige)}
+    .bg3{top:380px;fill:var(--highlight);opacity:0.08}
+
+    /* Header (rounded button nav) */
+    header{
+      display:flex;align-items:center;justify-content:center;
+      padding:28px 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.45));
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(20,20,18,0.05);
+      position:relative;z-index:10;
+    }
+    nav{
+      display:flex;gap:12px;padding:6px;
+      background:rgba(255,255,255,0.78);
+      border-radius:40px;box-shadow:0 6px 24px rgba(0,0,0,0.05);
+    }
+    nav a{
+      text-decoration:none;font-weight:600;font-family:'Poppins',sans-serif;color:var(--dark);
+      padding:10px 22px;border-radius:30px;transition:all .28s ease;
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    nav a:hover{background:rgba(0,0,0,0.04)}
+    nav a.active{background:var(--olive);color:#fff;font-weight:700;box-shadow:0 6px 20px rgba(88,89,47,0.12)}
+
+    main{max-width:var(--maxw);margin:28px auto;padding:0 6vw 80px}
+
+    /* Hero */
+    .hero{text-align:center;padding:60px 20px}
+    .hero h1{margin:0;font-family:"Manrope",sans-serif;font-weight:800;font-size:36px}
+    .hero p{margin:14px auto 0;max-width:70ch;color:var(--muted);font-size:17px}
+
+    /* Process Grid (three tracks) */
+    .process-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:28px;
+      margin-top:48px;
+    }
+    @media (max-width:1040px){
+      .process-grid{grid-template-columns:repeat(2, 1fr)}
+    }
+    @media (max-width:720px){
+      .process-grid{grid-template-columns:1fr}
+    }
+
+    .track{
+      background:linear-gradient(180deg,#fff,var(--offwhite));
+      border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,0.06);
+      padding:22px;opacity:0;transform:translateY(36px);
+      transition:all .75s cubic-bezier(.18,.86,.24,1);
+    }
+    .track.show{opacity:1;transform:translateY(0)}
+    .track h2{
+      font-family:"Manrope",sans-serif;font-size:18px;font-weight:700;margin:0 0 14px;color:var(--olive);
+      display:flex;align-items:center;gap:10px;
+    }
+
+    .step{margin-bottom:16px;padding-left:28px;position:relative}
+    .step::before{
+      content:"";position:absolute;left:0;top:8px;width:12px;height:12px;border-radius:50%;
+      background:linear-gradient(180deg,var(--highlight),#78a86a);
+      box-shadow:0 3px 8px rgba(0,0,0,0.08);
+    }
+    .step strong{display:block;font-weight:700}
+    .step p{margin:4px 0 0;color:var(--muted);font-size:14px;line-height:1.45}
+
+    /* Final combined product box */
+    .final-box{
+      grid-column:1/-1;margin-top:36px;padding:26px;border-radius:16px;
+      background:linear-gradient(135deg,var(--olive),var(--highlight));color:#fff;
+      box-shadow:0 12px 36px rgba(0,0,0,0.12);text-align:center;font-family:"Manrope",sans-serif;
+      font-size:18px;font-weight:700;opacity:0;transform:translateY(18px);
+      transition:all .75s cubic-bezier(.2,.9,.2,1);
+    }
+    .final-box.show{opacity:1;transform:translateY(0)}
+
+    /* subtle decorative divider inside final box */
+    .final-box small{display:block;font-weight:400;font-size:13px;opacity:0.9;margin-top:8px}
+
+    footer{max-width:var(--maxw);margin:28px auto;padding:14px 6vw;color:var(--muted);font-size:13px;text-align:center}
+  </style>
+</head>
+<body>
+  <!-- Waves background -->
+  <div class="bg-wave" aria-hidden="true">
+    <svg class="bg1" viewBox="0 0 1440 320" preserveAspectRatio="none"><path d="M0,256L60,240C120,224,240,192,360,165.3C480,139,600,117,720,128C840,139,960,181,1080,181.3C1200,181,1320,139,1380,117.3L1440,96L1440,320L0,320Z"></path></svg>
+    <svg class="bg2" viewBox="0 0 1440 320" preserveAspectRatio="none"><path d="M0,96L80,128C160,160,320,224,480,234.7C640,245,800,203,960,181.3C1120,160,1280,160,1360,160L1440,160L1440,320L0,320Z"></path></svg>
+    <svg class="bg3" viewBox="0 0 1440 320" preserveAspectRatio="none"><path d="M0,64L60,80C120,96,240,128,360,144C480,160,600,160,720,165.3C840,171,960,181,1080,165.3C1200,149,1320,107,1380,85.3L1440,64L1440,320L0,320Z"></path></svg>
+  </div>
+
+  <header>
+    <nav aria-label="Primary">
+      <a href="about.html"><i data-lucide="info"></i> About</a>
+      <a href="process.html" class="active"><i data-lucide="layers"></i> Process</a>
+      <a href="automation.html"><i data-lucide="cpu"></i> Automation</a>
+      <a href="index.html#order"><i data-lucide="shopping-bag"></i> Order Now</a>
+      <a href="index.html#contact"><i data-lucide="message-circle"></i> Get in Touch</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="process-title">
+      <h1 id="process-title">The Process Behind HAPLOS Pads</h1>
+      <p>Each gauze pad is produced by combining three carefully developed components: a bioactive guava extract, mechanically prepared coconut fibers, and a cassava-starch binder. Below is a clear, step-by-step view of each track and how they merge into the final product.</p>
+    </section>
+
+    <section class="process-grid" aria-hidden="false">
+      <!-- Guava Extract Track -->
+      <div class="track" id="track-guava" aria-labelledby="guava-heading">
+        <h2 id="guava-heading"><i data-lucide="leaf"></i> Guava Extract</h2>
+
+        <div class="step">
+          <strong>Collection</strong>
+          <p>Fresh guava leaves are carefully harvested and sorted to remove any damaged material.</p>
+        </div>
+
+        <div class="step">
+          <strong>Drying</strong>
+          <p>Leaves are dried under controlled conditions to preserve phenolics and other phytochemicals.</p>
+        </div>
+
+        <div class="step">
+          <strong>Ethanol Extraction</strong>
+          <p>Dried leaves are submerged in 95% ethanol to extract active compounds (Psidium guajava L.).</p>
+        </div>
+
+        <div class="step">
+          <strong>Filtration & Concentration</strong>
+          <p>Solution is filtered and concentrated to yield a consistent guava extract for infusion.</p>
+        </div>
+      </div>
+
+      <!-- Coconut Fibers Track -->
+      <div class="track" id="track-coconut" aria-labelledby="coconut-heading">
+        <h2 id="coconut-heading"><i data-lucide="award"></i> Coconut Fibers</h2>
+
+        <div class="step">
+          <strong>Collection & Rinse</strong>
+          <p>Husk fibers are collected, rinsed in clean water to remove soil and impurities.</p>
+        </div>
+
+        <div class="step">
+          <strong>Softening</strong>
+          <p>Fibers are boiled in a mild sodium bicarbonate solution to soften and loosen the material.</p>
+        </div>
+
+        <div class="step">
+          <strong>Sterilization</strong>
+          <p>Hydrogen peroxide or validated sterilization method applied to reduce bioburden.</p>
+        </div>
+
+        <div class="step">
+          <strong>Standardization</strong>
+          <p>Fibers are dried and cut into standardized sheets and sizes for assembly.</p>
+        </div>
+      </div>
+
+      <!-- Cassava Binder Track -->
+      <div class="track" id="track-binder" aria-labelledby="binder-heading">
+        <h2 id="binder-heading"><i data-lucide="beaker"></i> Cassava Binder</h2>
+
+        <div class="step">
+          <strong>Formulation</strong>
+          <p>Cassava starch, xanthan gum, glycerin and distilled water are measured precisely.</p>
+        </div>
+
+        <div class="step">
+          <strong>Mixing</strong>
+          <p>Starch slurry is mixed with cold distilled water, then combined with xanthan/glycerin.</p>
+        </div>
+
+        <div class="step">
+          <strong>Heating</strong>
+          <p>The binder is heated to ~65°C while stirring to achieve the correct viscosity.</p>
+        </div>
+
+        <div class="step">
+          <strong>Cooling & Stabilizing</strong>
+          <p>The binder is cooled and kept at controlled conditions ready for sealing pads.</p>
+        </div>
+      </div>
+
+      <!-- Final combined product box -->
+      <div class="final-box" id="final-product" role="status" aria-live="polite">
+        Coconut-fiber gauze sheets are infused with the standardized guava extract and sealed with the cassava starch binder — producing the final <strong>Guava-Infused Coconut Fiber Gauze Pads</strong>.
+        <small>All steps are designed for repeatability and to maintain bioactivity and structural integrity.</small>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 Project HAPLOS — Natural ingredients, scientific process, consistent results.
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // Reveal animation for tracks + final box
+    const revealTargets = document.querySelectorAll('.track, .final-box');
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.18 });
+
+    revealTargets.forEach(t => io.observe(t));
+  </script>
+</body>
+</html>
