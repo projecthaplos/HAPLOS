@@ -77,6 +77,28 @@
 
     footer{padding:36px 6vw;text-align:center}
     footer .contact-box{display:inline-block;padding:14px 22px;border-radius:14px;background:rgba(250,248,240,0.9);font-weight:700;font-family:'Poppins',sans-serif;color:var(--dark);box-shadow:0 6px 20px rgba(20,20,18,0.06)}
+
+    /* Floating AI Button */
+    #ai-button {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--highlight);
+      color: var(--offwhite);
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      padding: 14px 20px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 9999;
+      text-decoration: none;
+    }
+    #ai-button:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.28);
+    }
   </style>
 </head>
 <body>
@@ -108,8 +130,8 @@
     <nav>
       <ul>
         <li><a href="about.html">About</a></li>
-        <li><a href="process.html">Process</a></li> <!-- changed -->
-        <li><a href="automation.html">Automation</a></li> <!-- optional -->
+        <li><a href="process.html">Process</a></li>
+        <li><a href="automation.html">Automation</a></li>
         <li><a class="btn btn-primary" href="#order">Order Now</a></li>
         <li><a class="btn btn-ghost" href="#contact">Get in Touch</a></li>
       </ul>
@@ -139,13 +161,13 @@
         <span class="highlight">guava phenolics</span> and 
         <span class="highlight">coconut fibers</span>.</p>
       </div>
-      <div class="info-card" id="process" onclick="window.location.href='process.html'"> <!-- changed -->
+      <div class="info-card" id="process" onclick="window.location.href='process.html'">
         <i data-lucide="layers"></i>
         <h3>Process</h3>
         <p>Stepwise <span class="highlight">infusion</span>, <span class="highlight">drying</span>, and 
         <span class="highlight">binding</span> ensures even distribution and durability.</p>
       </div>
-      <div class="info-card" id="automation" onclick="window.location.href='automation.html'"> <!-- optional -->
+      <div class="info-card" id="automation" onclick="window.location.href='automation.html'">
         <i data-lucide="cpu"></i>
         <h3>Automation</h3>
         <p><span class="highlight">Arduino microcontroller-guided modules</span> orchestrate each stage with calibrated precision.</p>
@@ -167,6 +189,9 @@
       <div class="contact-box">EJC • Project HAPLOS · projecthaplos@gmail.com</div>
     </footer>
   </main>
+
+  <!-- Floating AI Button -->
+  <a id="ai-button" href="haplosai.html">Check out our AI!</a>
 
   <script>
     lucide.createIcons();
@@ -193,7 +218,5 @@
 
     document.querySelectorAll(".info-card, .mini-contact").forEach(applyTilt);
   </script>
-  <!-- Noupe Embed -->
-  <script src="https://www.noupe.com/embed/019931816d0c7ce19f50dc18508182392291.js"></script>
 </body>
 </html>
